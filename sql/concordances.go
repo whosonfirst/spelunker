@@ -9,9 +9,9 @@ import (
 	"github.com/aaronland/go-pagination"
 	"github.com/aaronland/go-pagination/countable"
 	"github.com/whosonfirst/go-whosonfirst-database/sql/tables"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-spr"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetConcordances retrieves the list of unique concordances in a SQLSpelunker database.

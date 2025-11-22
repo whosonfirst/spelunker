@@ -24,6 +24,7 @@ func init() {
 
 // NewNullSpelunker returns an implementation of the [Spelunker] interface that returns an `ErrNotImplemented` error
 // for every method configured by 'uri' which is expected to take the form of:
+//
 //	null://
 func NewNullSpelunker(ctx context.Context, uri string) (Spelunker, error) {
 	s := &NullSpelunker{}
@@ -97,17 +98,17 @@ func (s *NullSpelunker) HasPlacetypeFaceted(ctx context.Context, pt *placetypes.
 
 // GetAlternatePlacetypes retrieves the list of alternate placetype ("wof:placetype_alt") in a NullSpelunker database.
 func (s *NullSpelunker) GetAlternatePlacetypes(ctx context.Context) (*Faceting, error) {
-	return nil, ErrNotImplemented	
+	return nil, ErrNotImplemented
 }
 
 // HasAlternatePlacetypes retrieves the list of Who's On First records with a given alternate placetype ("wof:placetype_alt") in a NullSpelunker database.
 func (s *NullSpelunker) HasAlternatePlacetype(ctx context.Context, pg_opts pagination.Options, pt string, filters []Filter) (spr.StandardPlacesResults, pagination.Results, error) {
-	return nil, nil, ErrNotImplemented	
+	return nil, nil, ErrNotImplemented
 }
 
 // HasAlternatePlacetypeFaceted retrieves faceted properties for records with a given alternate placetype ("wof:placetype_alt") in a NullSpelunker database.
 func (s *NullSpelunker) HasAlternatePlacetypeFaceted(ctx context.Context, pt string, filters []Filter, facets []*Facet) ([]*Faceting, error) {
-	return nil, ErrNotImplemented	
+	return nil, ErrNotImplemented
 }
 
 // GetConcordances retrieves the list of unique concordances in a NullSpelunker database.

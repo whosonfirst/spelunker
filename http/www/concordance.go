@@ -10,9 +10,9 @@ import (
 	"github.com/aaronland/go-http/v4/slog"
 	"github.com/aaronland/go-pagination"
 	"github.com/whosonfirst/go-whosonfirst-sources"
+	"github.com/whosonfirst/go-whosonfirst-spr/v2"
 	"github.com/whosonfirst/spelunker/v2"
 	wof_http "github.com/whosonfirst/spelunker/v2/http"
-	"github.com/whosonfirst/go-whosonfirst-spr/v2"
 )
 
 type hasConcordanceHandlerVars struct {

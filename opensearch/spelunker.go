@@ -21,8 +21,8 @@ import (
 	"github.com/whosonfirst/go-cache"
 	"github.com/whosonfirst/go-reader/v2"
 	"github.com/whosonfirst/go-whosonfirst-database/opensearch/client"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 const scroll_duration time.Duration = 5 * time.Minute

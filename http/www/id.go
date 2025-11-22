@@ -11,11 +11,11 @@ import (
 	"github.com/aaronland/go-http/v4/slog"
 	"github.com/tidwall/gjson"
 	"github.com/whosonfirst/go-whosonfirst-placetypes"
+	"github.com/whosonfirst/go-whosonfirst-uri"
+	wof_http "github.com/whosonfirst/go-whosonfirst/http"
 	"github.com/whosonfirst/spelunker/v2"
 	sp_http "github.com/whosonfirst/spelunker/v2/http"
 	sp_funcs "github.com/whosonfirst/spelunker/v2/http/templates/funcs"
-	"github.com/whosonfirst/go-whosonfirst-uri"
-	wof_http "github.com/whosonfirst/go-whosonfirst/http"
 )
 
 type idHandlerAncestor struct {

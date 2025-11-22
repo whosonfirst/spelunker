@@ -61,7 +61,7 @@ type Spelunker interface {
 	HasAlternatePlacetype(context.Context, pagination.Options, string, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
 	// Retrieve faceted properties for records with a given alternate placetype ("wof:placetype_alt") in a SQLSpelunker database.
 	HasAlternatePlacetypeFaceted(context.Context, string, []Filter, []*Facet) ([]*Faceting, error)
-	
+
 	// Retrieve the list of unique concordances in a Spelunker index.
 	GetConcordances(context.Context) (*Faceting, error)
 	// Retrieve the list of records with a given concordance.

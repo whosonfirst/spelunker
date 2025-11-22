@@ -25,7 +25,7 @@ Step 2: Launch the Spelunker web application for the data stored in the `test-gi
 
 ```
 $> ./bin/wof-spelunker-httpd \
--spelunker-uri 'sql://sqlite3?dsn=test-git.db'
+	-spelunker-uri 'sql://sqlite3?dsn=test-git.db'
 
 2025/11/18 08:44:42 INFO Listening for requests address=http://localhost:8080
 ```
@@ -34,7 +34,15 @@ That's it. Point your web browser at `http://localhost:8080` and happy spelunkin
 
 ## Documentation
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/spelunker.svg)](https://pkg.go.dev/github.com/whosonfirst/spelunker)
+[![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/spelunker/v2.svg)](https://pkg.go.dev/github.com/whosonfirst/spelunker/v2)
+
+Or run the handy `godoc` Makefile target to launch a local "godoc" browser for this package at `http://localhost:6060`:
+
+```
+$> make godoc
+godoc -http=:6060
+using module mode; GOMOD=/usr/local/whosonfirst/spelunker/go.mod
+```
 
 ## Tools
 
@@ -231,8 +239,8 @@ For example:
 import (
        "context"
 
-       "github.com/whosonfirst/spelunker"
-       _ "github.com/whosonfirst/spelunker/sql"       
+       "github.com/whosonfirst/spelunker/v2"
+       _ "github.com/whosonfirst/spelunker/v2/sql"       
 )
 
 sp, _ := spelunker.NewSpelunker(context.Background(), "sql://sqlite3?dsn=example.db")
@@ -255,8 +263,8 @@ import (
        "context"
        "net/url"
        
-       "github.com/whosonfirst/spelunker"
-       _ "github.com/whosonfirst/spelunker/opensearch"       
+       "github.com/whosonfirst/spelunker/v2"
+       _ "github.com/whosonfirst/spelunker/v2/opensearch"       
 )
 
 client_uri := "opensearch://localhost:9200/spelunker?require-tls=true"
@@ -281,8 +289,8 @@ import (
         "context"
         "log"
 	
-        "github.com/whosonfirst/spelunker/app/httpd/server"
-        _ "github.com/whosonfirst/spelunker-CUSTOM_DB"	
+        "github.com/whosonfirst/spelunker/v2/app/httpd/server"
+        _ "github.com/YOUR-ORG/spelunker-CUSTOM_DB"	
 )
 
 func main() {
@@ -295,7 +303,7 @@ _Error handling removed for the sake of brevity._
 
 ## Motivation
 
-This is a refactoring of both the [whosonfirst/whosonfirst-www-spelunker](github.com/whosonfirst/whosonfirst-www-spelunker) and [whosonfirst/go-whosonfirst-browser](github.com/whosonfirst/go-whosonfirst-browser) packages.
+This is a refactoring of both the [whosonfirst/whosonfirst-www-spelunker](https://github.com/whosonfirst/whosonfirst-www-spelunker), [whosonfirst/go-whosonfirst-browser](https://github.com/whosonfirst/go-whosonfirst-browser) and [whosonfirst/go-whosonfirst-spelunker](https://github.com/whosonfirst/go-whosonfirst-spelunker) packages.
 
 Specifically, the former (`whosonfirst-www-spelunker`) is written in Python and ha a sufficiently complex set of requirements that spinning up a new instance was difficult. By rewriting the spelunker tool in Go the hope is to eliminate or at least minimize these external requirements and to make it easier to deploy the spelunker to "serverless" environments like AWS Lambda or Function URLs. The latter (`go-whosonfirst-browser`) has developed a sufficiently large and complex code base that starting from scratch and simply copying, and adapting, existing functionality seemed easier than trying to refactor everything.
 

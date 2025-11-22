@@ -9,9 +9,9 @@ import (
 	"github.com/aaronland/go-pagination"
 	"github.com/aaronland/go-pagination/countable"
 	"github.com/aaronland/go-pagination/cursor"
-	"github.com/whosonfirst/spelunker/v2"
 	"github.com/whosonfirst/go-whosonfirst-spr/v2"
 	wof_http "github.com/whosonfirst/go-whosonfirst/http"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // PaginationOptionsFromRequests derives a new `pagination.Options` instance from query parameters present in 'req'.

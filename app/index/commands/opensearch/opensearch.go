@@ -14,8 +14,8 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-database/opensearch/schema/v2"
 	"github.com/whosonfirst/go-whosonfirst-iterwriter/v4"
 	iterwriter_app "github.com/whosonfirst/go-whosonfirst-iterwriter/v4/app/iterwriter"
-	"github.com/whosonfirst/spelunker/v2/app/index/commands"
 	"github.com/whosonfirst/go-writer/v3"
+	"github.com/whosonfirst/spelunker/v2/app/index/commands"
 )
 
 type IndexOpenSearchCommand struct {

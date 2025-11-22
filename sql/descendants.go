@@ -17,9 +17,9 @@ import (
 	"github.com/aaronland/go-pagination"
 	"github.com/aaronland/go-pagination/countable"
 	"github.com/whosonfirst/go-whosonfirst-database/sql/tables"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-spr"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetDescendants retrieves all the Who's On First record that are a descendant of a specific Who's On First ID in a SQLSpelunker database.

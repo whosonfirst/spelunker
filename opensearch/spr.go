@@ -55,30 +55,37 @@ func NewSpelunkerRecordSPR(props []byte) (wof_spr.StandardPlacesResult, error) {
 	return s, nil
 }
 
+// Return the unique ID of the place result.
 func (s *SpelunkerRecordSPR) Id() string {
 	return gjson.GetBytes(s.props, "wof:id").String()
 }
 
+// Return the unique parent ID of the place result.
 func (s *SpelunkerRecordSPR) ParentId() string {
 	return gjson.GetBytes(s.props, "wof:parent_id").String()
 }
 
+// Return the name of the place result.
 func (s *SpelunkerRecordSPR) Name() string {
 	return gjson.GetBytes(s.props, "wof:name").String()
 }
 
+// Return the Who's On First placetype of the place result.
 func (s *SpelunkerRecordSPR) Placetype() string {
 	return gjson.GetBytes(s.props, "wof:placetype").String()
 }
 
+// Return the two-letter country code of the place result.
 func (s *SpelunkerRecordSPR) Country() string {
 	return gjson.GetBytes(s.props, "wof:country").String()
 }
 
+// Return the (Git) repository name where the source record for the place result is stored.
 func (s *SpelunkerRecordSPR) Repo() string {
 	return gjson.GetBytes(s.props, "wof:repo").String()
 }
 
+// Return the relative path for the Who's On First record associated with the place result.
 func (s *SpelunkerRecordSPR) Path() string {
 
 	id := gjson.GetBytes(s.props, "wof:id").Int()
@@ -86,47 +93,58 @@ func (s *SpelunkerRecordSPR) Path() string {
 	return path
 }
 
+// Return the fully-qualified URI (URL) for the Who's On First record associated with the place result.
 func (s *SpelunkerRecordSPR) URI() string {
 	return s.Path()
 }
 
+// Return the EDTF inception date of the place result.
 func (s *SpelunkerRecordSPR) Inception() *edtf.EDTFDate {
 	return s.edtfDate("edtf:inception")
 }
 
+// Return the EDTF cessation date of the place result.
 func (s *SpelunkerRecordSPR) Cessation() *edtf.EDTFDate {
 	return s.edtfDate("edtf:cessation")
 }
 
+// Return the latitude for the principal centroid (typically "label") of the place result.
 func (s *SpelunkerRecordSPR) Latitude() float64 {
 	return gjson.GetBytes(s.props, "geom:latitude").Float()
 }
 
+// Return the longitude for the principal centroid (typically "label") of the place result.
 func (s *SpelunkerRecordSPR) Longitude() float64 {
 	return gjson.GetBytes(s.props, "geom:longitude").Float()
 }
 
+// Return the minimum latitude of the bounding box of the place result.
 func (s *SpelunkerRecordSPR) MinLatitude() float64 {
 	return gjson.GetBytes(s.props, "geom:bbox.1").Float()
 }
 
+// Return the minimum longitude of the bounding box of the place result.
 func (s *SpelunkerRecordSPR) MinLongitude() float64 {
 	return gjson.GetBytes(s.props, "geom:bbox.0").Float()
 }
 
+// Return the maximum latitude of the bounding box of the place result.
 func (s *SpelunkerRecordSPR) MaxLatitude() float64 {
 	return gjson.GetBytes(s.props, "geom:bbox.3").Float()
 }
 
+// Return the maximum longitude of the bounding box of the place result.
 func (s *SpelunkerRecordSPR) MaxLongitude() float64 {
 	return gjson.GetBytes(s.props, "geom:bbox.2").Float()
 }
 
+// Return the Who's On First "existential" flag denoting whether the place result is "current" or not.
 func (s *SpelunkerRecordSPR) IsCurrent() flags.ExistentialFlag {
 	fl_i := gjson.GetBytes(s.props, "mz:is_current").Int()
 	return s.existentialFlag(fl_i)
 }
 
+// Return the Who's On First "existential" flag denoting whether the place result is "ceased" or not`.
 func (s *SpelunkerRecordSPR) IsCeased() flags.ExistentialFlag {
 
 	fl_i := int64(0)
@@ -146,6 +164,7 @@ func (s *SpelunkerRecordSPR) IsCeased() flags.ExistentialFlag {
 	return s.existentialFlag(fl_i)
 }
 
+// Return the Who's On First "existential" flag denoting whether the place result is superseded or not.
 func (s *SpelunkerRecordSPR) IsDeprecated() flags.ExistentialFlag {
 
 	fl_i := int64(0)
@@ -159,6 +178,7 @@ func (s *SpelunkerRecordSPR) IsDeprecated() flags.ExistentialFlag {
 	return s.existentialFlag(fl_i)
 }
 
+// Return the Who's On First "existential" flag denoting whether the place result has been superseded.
 func (s *SpelunkerRecordSPR) IsSuperseded() flags.ExistentialFlag {
 
 	fl_i := int64(0)
@@ -170,6 +190,7 @@ func (s *SpelunkerRecordSPR) IsSuperseded() flags.ExistentialFlag {
 	return s.existentialFlag(fl_i)
 }
 
+// Return the Who's On First "existential" flag denoting whether the place result supersedes other records.
 func (s *SpelunkerRecordSPR) IsSuperseding() flags.ExistentialFlag {
 
 	fl_i := int64(0)
@@ -181,21 +202,25 @@ func (s *SpelunkerRecordSPR) IsSuperseding() flags.ExistentialFlag {
 	return s.existentialFlag(fl_i)
 }
 
+// Return the list of Who's On First IDs that supersede the place result.
 func (s *SpelunkerRecordSPR) SupersededBy() []int64 {
 
 	return s.gatherIds("wof:superseded_by")
 }
 
+// Return the list of Who's On First IDs that are superseded by the place result.
 func (s *SpelunkerRecordSPR) Supersedes() []int64 {
 
 	return s.gatherIds("wof:supersedes")
 }
 
+// Return the list of Who's On First IDs that are ancestors of the place result.
 func (s *SpelunkerRecordSPR) BelongsTo() []int64 {
 
 	return s.gatherIds("wof:belongsto")
 }
 
+// Return the Unix timestamp indicating when the place result was last modified.
 func (s *SpelunkerRecordSPR) LastModified() int64 {
 
 	return gjson.GetBytes(s.props, "wof:lastmodified").Int()

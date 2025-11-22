@@ -8,8 +8,8 @@ import (
 	"context"
 
 	"github.com/aaronland/go-pagination"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetTags retrieves the list of unique tags in a Spelunker index in a SQLSpelunker database.

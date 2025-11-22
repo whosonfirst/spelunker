@@ -12,9 +12,9 @@ import (
 	"github.com/aaronland/go-pagination"
 	"github.com/dustin/go-humanize"
 	"github.com/sfomuseum/iso8601duration"
+	"github.com/whosonfirst/go-whosonfirst-spr/v2"
 	"github.com/whosonfirst/spelunker/v2"
 	wof_http "github.com/whosonfirst/spelunker/v2/http"
-	"github.com/whosonfirst/go-whosonfirst-spr/v2"
 )
 
 type recentHandlerVars struct {

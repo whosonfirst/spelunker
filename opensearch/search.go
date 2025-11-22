@@ -7,8 +7,8 @@ import (
 
 	"github.com/aaronland/go-pagination"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // Search retrieves all the Who's On First records that match a search criteria in an OpenSearchSpelunker index.

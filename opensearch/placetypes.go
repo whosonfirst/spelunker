@@ -8,8 +8,8 @@ import (
 	"github.com/aaronland/go-pagination"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
 	"github.com/whosonfirst/go-whosonfirst-placetypes"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetPlacetypes retrieves the list of unique placetypes in a Spleunker index in an OpenSearchSpelunker index.

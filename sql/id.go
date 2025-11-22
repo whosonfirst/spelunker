@@ -8,10 +8,10 @@ import (
 
 	"github.com/whosonfirst/go-whosonfirst-database/opensearch/document"
 	"github.com/whosonfirst/go-whosonfirst-database/sql/tables"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-spr"
 	"github.com/whosonfirst/go-whosonfirst-uri"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetRecordForId retrieves properties (or more specifically the "document") for a given ID in a SQLSpelunker database.

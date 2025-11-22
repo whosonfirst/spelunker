@@ -8,8 +8,8 @@ import (
 
 	"github.com/aaronland/go-pagination"
 	"github.com/whosonfirst/go-whosonfirst-database/sql/tables"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetRecent retrieves all the Who's On First records that have been modified with a window of time in a SQLSpelunker database.

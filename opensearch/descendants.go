@@ -6,8 +6,8 @@ import (
 
 	"github.com/aaronland/go-pagination"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetDescendants retrieves all the Who's On First record that are a descendant of a specific Who's On First ID in an OpenSearchSpelunker index.

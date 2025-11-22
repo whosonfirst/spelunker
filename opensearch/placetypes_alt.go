@@ -7,8 +7,8 @@ import (
 
 	"github.com/aaronland/go-pagination"
 	opensearchapi "github.com/opensearch-project/opensearch-go/v4/opensearchapi"
-	"github.com/whosonfirst/spelunker/v2"
 	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
+	"github.com/whosonfirst/spelunker/v2"
 )
 
 // GetAlternatePlacetypes retrieves the list of alternate placetype ("wof:placetype_alt") in an OpenSearchSpelunker index.

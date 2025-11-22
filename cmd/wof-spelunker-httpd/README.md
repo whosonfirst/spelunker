@@ -234,29 +234,55 @@ If you want to disable caching entirely, use the "null" cache implementation. Fo
 
 #### /
 
+The root URL for the Spelunker. For example `http://localhost:8080/`.
+
 #### /about
+
+The URL for the Spelunker "about" page. For example `http://localhost:8080/about/`.
 
 #### /concordances
 
+The URL for the page listing all the concordances in a Spelunker index. For example `http://localhost:8080/concordances/`.
+
 #### /concordances/{namespace}
+
+The URL for the page listing all the records matching a specific concordance namespace in a Spelunker index. For example `http://localhost:8080/concordances/gp`.
 
 #### /concordances/{namespace}:{predicate}
 
+The URL for the page listing all the records matching a specific concordance namespace and predicate in a Spelunker index. For example `http://localhost:8080/concordances/foo:bar`.
+
 #### /concordances/{namespace}:{predicate}={value}
+
+The URL for the page listing all the records matching a specific concordance in a Spelunker index. For example `http://localhost:8080/concordances/foo:bar=baz`.
 
 #### /id/{id}
 
+The URL for the page to display a specific Who's On First record. For example `http://localhost:8080/id/1234`.
+
 #### /id/{id}/descendants
+
+The URL for the page to display all of descendants of a specific Who's On First record. For example `http://localhost:8080/id/1234/descendants`.`
 
 #### nullisland
 
+The URL for the page to display all of the records in a Spelunker index that are "visiting" Null Island (have lat,lon coordinates of "0.0,0.0"). For example `http://localhost:8080/nullisland`.`
+
 #### /placetypes
+
+The URL for the page listing all the placetypes in a Spelunker index. For example `http://localhost:8080/placetypes/`.
 
 #### /placetypes/{placetype}
 
+The URL for the page listing all the records matching a specific placetype in a Spelunker index. For example `http://localhost:8080/placetypes/locality/`.
+
 #### /recent/{duration}
 
+The URL for the page listing all the records in a Spelunker index that have been updated within a given time period. For example `http://localhost:8080/recent/P14D`.
+
 #### /search
+
+The URL for the page for search records in a Spelunker index. For example `http://localhost:8080/search?q=Montreal`.
 
 ### Endpoints for machines
 

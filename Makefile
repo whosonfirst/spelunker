@@ -8,6 +8,9 @@ GOTAGS_OPENSEARCH=opensearch
 
 GOTAGS=$(GOTAGS_SQLITE),$(GOTAGS_OPENSEARCH)
 
+godoc:
+	godoc -http=:6060
+
 cli-sqlite:
 	@make cli GOTAGS=$(GOTAGS_SQLITE) 
 

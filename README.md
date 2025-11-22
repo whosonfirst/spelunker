@@ -1,12 +1,14 @@
 # spelunker
 
-Go package implementing tools and a common interface for querying (or "spelunking") an index Who's On First data.
+Go package providing a web application, command line tools and a common interface for querying (or "spelunking") an index Who's On First data.
 
 ## tl;dr
 
 ![](docs/images/wof-spelunker-montreal.png)
 
-Step 1: Index the Who's On First data for Canada reading that data directly from the [whosonfirst-data/whosonfirst-data-admin-ca](https://github.com/whosonfirst-data/whosonfirst-data-admin-ca) repository. Store that index in a SQLite database named `test-git.db`.
+### Step 1: Index Who's On First data
+
+Index the Who's On First data for Canada reading that data directly from the [whosonfirst-data/whosonfirst-data-admin-ca](https://github.com/whosonfirst-data/whosonfirst-data-admin-ca) repository. Store that index in a SQLite database named `test-git.db`.
 
 ```
 $> ./bin/wof-spelunker-index sql \
@@ -21,7 +23,9 @@ $> ./bin/wof-spelunker-index sql \
 
 _Note: You can specify more than one repo to index._
 
-Step 2: Launch the Spelunker web application for the data stored in the `test-git.db` SQLite database.
+### Step 2: Launch the Spelunker web application
+
+Launch the Spelunker web application for the data stored in the `test-git.db` SQLite database.
 
 ```
 $> ./bin/wof-spelunker-httpd \

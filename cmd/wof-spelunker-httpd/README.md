@@ -308,7 +308,11 @@ The URL for the page for search records in a Spelunker index. For example `http:
 
 ### Endpoints for machines
 
-#### /concordances/{namespace}/facets
+#### /concordances/{namespace}/facets?facet={FACET}
+
+![](../../docs/images/wof-spelunker-concordance-ns-facets.png)
+
+For example `http://localhost:8080/concordances/qs/facets?facet=placetype`.
 
 #### /concordances/{namespace}:{predicate}/facets
 
@@ -316,7 +320,7 @@ The URL for the page for search records in a Spelunker index. For example `http:
 
 #### /findingaid
 
-#### /id/{id}/descendants/facets
+#### /id/{id}/descendants/facets?facet={FACET}
 
 ![](../../docs/images/wof-spelunker-descendants-facets.png)
 
@@ -364,9 +368,17 @@ For example `http://localhost:8080/id/101736545/svg`.
 
 For example `http://localhost:8080/id/101736545/wkt`.
 
-#### /nullisland/facets
+#### /nullisland/facets?facet={FACET}
+
+![](../../docs/images/wof-spelunker-null-facets.png)
+
+For example `http://localhost:8080/nullisland/facets?facet=country`.
 
 #### /placetypes/{placetype}/facets
+
+![](../../docs/images/wof-spelunker-placetype-facets.png)
+
+For example `http://localhost:8080/placetypes/locality/facets?facet=is_current`.
 
 #### /recent/{duration}/facets
 

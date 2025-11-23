@@ -234,13 +234,19 @@ If you want to disable caching entirely, use the "null" cache implementation. Fo
 
 #### /
 
+![](../../docs/images/wof-spelunker-index.png)
+
 The root URL for the Spelunker. For example `http://localhost:8080/`.
 
 #### /about
 
+![](../../docs/images/wof-spelunker-about.png)
+
 The URL for the Spelunker "about" page. For example `http://localhost:8080/about/`.
 
 #### /concordances
+
+![](../../docs/images/wof-spelunker-corcordances.png)
 
 The URL for the page listing all the concordances in a Spelunker index. For example `http://localhost:8080/concordances/`.
 
@@ -258,17 +264,25 @@ The URL for the page listing all the records matching a specific concordance in 
 
 #### /id/{id}
 
+![](../../docs/images/wof-spelunker-id.png)
+
 The URL for the page to display a specific Who's On First record. For example `http://localhost:8080/id/1234`.
 
 #### /id/{id}/descendants
+
+![](../../docs/images/wof-spelunker-descendants.png)
 
 The URL for the page to display all of descendants of a specific Who's On First record. For example `http://localhost:8080/id/1234/descendants`.`
 
 #### nullisland
 
+![](../../docs/images/wof-spelunker-null.png)
+
 The URL for the page to display all of the records in a Spelunker index that are "visiting" Null Island (have lat,lon coordinates of "0.0,0.0"). For example `http://localhost:8080/nullisland`.`
 
 #### /placetypes
+
+![](../../docs/images/wof-spelunker-placetypes.png)
 
 The URL for the page listing all the placetypes in a Spelunker index. For example `http://localhost:8080/placetypes/`.
 
@@ -281,6 +295,8 @@ The URL for the page listing all the records matching a specific placetype in a 
 The URL for the page listing all the records in a Spelunker index that have been updated within a given time period. For example `http://localhost:8080/recent/P14D`.
 
 #### /search
+
+![](../../docs/images/wof-spelunker-search.png)
 
 The URL for the page for search records in a Spelunker index. For example `http://localhost:8080/search?q=Montreal`.
 
@@ -298,17 +314,15 @@ The URL for the page for search records in a Spelunker index. For example `http:
 
 #### /id/{id}/geojson
 
+![](../../docs/images/wof-spelunker-geojson.png)
+
 #### /id/{id}/geojsonld
+
+![](../../docs/images/wof-spelunker-geojsonld.png)
 
 #### /id/{id}/navplace
 
-#### /id/{id}/select
-
-#### /id/{id}/spr
-
-#### /id/{id}/svg
-
-#### /id/{id}/wkt
+![](../../docs/images/wof-spelunker-navplace.png)
 
 #### /nullisland/facets
 
@@ -319,3 +333,19 @@ The URL for the page for search records in a Spelunker index. For example `http:
 #### /recent/{duration}/facets
 
 #### /search/facets
+
+#### /id/{id}/select
+
+![](../../docs/images/wof-spelunker-select.png)
+
+#### /id/{id}/spr
+
+![](../../docs/images/wof-spelunker-spr.png)
+
+#### /id/{id}/svg
+
+![](../../docs/images/wof-spelunker-svg.png)
+
+#### /id/{id}/wkt
+
+![](../../docs/images/wof-spelunker-wkt.png)

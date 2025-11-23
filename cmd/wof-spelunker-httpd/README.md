@@ -292,11 +292,13 @@ The URL for the page listing all the placetypes in a Spelunker index. For exampl
 
 ![](../../docs/images/wof-spelunker-placetype.png)
 
-The URL for the page listing all the records matching a specific placetype in a Spelunker index. For example `http://localhost:8080/placetypes/locality/`.
+The URL for the page listing all the records matching a specific placetype in a Spelunker index. For example `http://localhost:8080/placetypes/campus/`.
 
 #### /recent/{duration}
 
-The URL for the page listing all the records in a Spelunker index that have been updated within a given time period. For example `http://localhost:8080/recent/P14D`.
+![](../../docs/images/wof-spelunker-recent.png)
+
+The URL for the page listing all the records in a Spelunker index that have been updated within a given time period. For example `http://localhost:8080/recent/`.
 
 #### /search
 

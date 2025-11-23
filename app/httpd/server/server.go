@@ -43,6 +43,11 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	run_options = v
 
+	if run_options.Verbose {
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+		slog.Debug("Verbose (debug) logging enabled")
+	}
+
 	// To do: Add/consult "is enabled" flags
 
 	// START OF defer loading handlers (and all their dependencies) until they are actually routed to

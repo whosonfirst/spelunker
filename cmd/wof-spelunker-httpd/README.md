@@ -256,13 +256,19 @@ The URL for the page listing all the concordances in a Spelunker index. For exam
 
 The URL for the page listing all the records matching a specific concordance namespace in a Spelunker index. For example `http://localhost:8080/concordances/qs`.
 
-#### /concordances/{namespace}/{predicate}
+#### /concordances/{namespace}:{predicate}
 
-The URL for the page listing all the records matching a specific concordance namespace and predicate in a Spelunker index. For example `http://localhost:8080/concordances/qs/a0`.
+![](../../docs/images/wof-spelunker-concordances-ns-pred.png)
 
-#### /concordances/{namespace}/{predicate}/{value}
+![](../../docs/images/wof-spelunker-concordances-ns-pred-2.png)
 
-The URL for the page listing all the records matching a specific concordance in a Spelunker index. For example `http://localhost:8080/concordances/qs/a0/Canada`.
+The URL for the page listing all the records matching a specific concordance namespace and predicate in a Spelunker index. For example `http://localhost:8080/concordances/*:id=`.
+
+#### /concordances/{namespace}:{predicate}={value}
+
+![](../../docs/images/wof-spelunker-concordances-ns-pred-value.png)
+
+The URL for the page listing all the records matching a specific concordance in a Spelunker index. For example `http://localhost:8080/concordances/*:id=3534`.
 
 #### /id/{id}
 

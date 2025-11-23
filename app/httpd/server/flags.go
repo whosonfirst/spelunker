@@ -20,6 +20,8 @@ var protomaps_max_data_zoom int
 
 var root_url string
 
+var verbose bool
+
 func DefaultFlagSet() *flag.FlagSet {
 
 	fs := flagset.NewFlagSet("spelunker")
@@ -34,6 +36,8 @@ func DefaultFlagSet() *flag.FlagSet {
 	fs.IntVar(&protomaps_max_data_zoom, "protomaps-max-data-zoom", 15, "The maximum zoom (tile) level for data in a PMTiles database")
 
 	fs.StringVar(&root_url, "root-url", "", "The root URL for all public-facing URLs and links. If empty then the value of the -server-uri flag will be used.")
+
+	fs.BoolVar(&verbose, "verbose", false, "Enable verbose (debug) logging.")
 
 	fs.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Start the Spelunker web application.\n")

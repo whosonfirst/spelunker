@@ -165,11 +165,19 @@ func HasConcordanceHandler(opts *HasConcordanceHandlerOptions) (http.Handler, er
 			FacetsContextURL: facets_context_url,
 		}
 
+		var desc string
+
+		if src != nil {
+			desc = fmt.Sprintf(`Who's On First records that "hold hands" with records from %s`, src.Fullname)
+		} else {
+			desc = fmt.Sprintf(`Who's On First records that "hold hands" with records matching this concordance`)
+		}
+
 		vars.OpenGraph = &OpenGraph{
 			Type:        "Article",
 			SiteName:    "Who's On First Spelunker",
 			Title:       fmt.Sprintf(`Who's On First concordances for \"%s\"`, c),
-			Description: fmt.Sprintf(`Who's On First records that "hold hands" with records from %s`, src.Fullname),
+			Description: desc,
 			Image:       "",
 		}
 

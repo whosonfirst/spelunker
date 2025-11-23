@@ -100,18 +100,20 @@ func (s *SQLSpelunker) HasConcordance(ctx context.Context, pg_opts pagination.Op
 		return nil, nil, err
 	}
 
+	count_col := "id"
+
 	if len(filters) == 0 {
 
 		str_where := strings.Join(where, " AND ")
 
-		q = fmt.Sprintf("SELECT id FROM %s WHERE %s", tables.CONCORDANCES_TABLE_NAME, str_where)
+		q = fmt.Sprintf("SELECT DISTINCT(id) FROM %s WHERE %s", tables.CONCORDANCES_TABLE_NAME, str_where)
 
 	} else {
 
 		// slog.Info("WHERE", "where", where, "args", args)
 		str_where := strings.Join(where, " AND ")
 
-		q = fmt.Sprintf("SELECT %s.id AS id FROM %s LEFT JOIN %s ON %s.id = %s.id WHERE %s",
+		q = fmt.Sprintf("SELECT DISTINCT(%s.id) AS id FROM %s LEFT JOIN %s ON %s.id = %s.id WHERE %s",
 			tables.SPR_TABLE_NAME,
 			tables.SPR_TABLE_NAME,
 			tables.CONCORDANCES_TABLE_NAME,
@@ -120,9 +122,45 @@ func (s *SQLSpelunker) HasConcordance(ctx context.Context, pg_opts pagination.Op
 			str_where,
 		)
 
+		count_col = "spr.id"
 	}
 
-	// slog.Info("QUERY", "q", q, "args", args)
+	if pg_opts != nil {
+		limit, offset := s.deriveLimitOffset(pg_opts)
+		q = fmt.Sprintf("%s LIMIT %d OFFSET %d", q, limit, offset)
+	}
+
+	count_ids, err := s.queryCount(ctx, count_col, q, args...)
+
+	if err != nil {
+		return nil, nil, fmt.Errorf("Failed to query count for concordance, %w", err)
+	}
+
+	var pg_results pagination.Results
+	var pg_err error
+
+	if pg_opts != nil {
+		pg_results, pg_err = countable.NewResultsFromCountWithOptions(pg_opts, count_ids)
+	} else {
+		pg_results, pg_err = countable.NewResultsFromCount(count_ids)
+	}
+
+	if pg_err != nil {
+		return nil, nil, fmt.Errorf("Failed to create pagination results, %w", err)
+	}
+
+	if count_ids == 0 {
+
+		results := make([]wof_spr.StandardPlacesResult, 0)
+
+		spr_results := &spr.SQLiteResults{
+			Places: results,
+		}
+
+		return spr_results, pg_results, nil
+	}
+
+	// Carry on...
 
 	rows, err := s.db.QueryContext(ctx, q, args...)
 
@@ -153,36 +191,18 @@ func (s *SQLSpelunker) HasConcordance(ctx context.Context, pg_opts pagination.Op
 		return nil, nil, fmt.Errorf("Failed to close results rows, %w", err)
 	}
 
-	if len(ids) == 0 {
-
-		var pg_results pagination.Results
-		var pg_err error
-
-		if pg_opts != nil {
-			pg_results, pg_err = countable.NewResultsFromCountWithOptions(pg_opts, 0)
-		} else {
-			pg_results, pg_err = countable.NewResultsFromCount(0)
-		}
-
-		if pg_err != nil {
-			return nil, nil, fmt.Errorf("Failed to create pagination results, %w", err)
-		}
-
-		results := make([]wof_spr.StandardPlacesResult, 0)
-
-		spr_results := &spr.SQLiteResults{
-			Places: results,
-		}
-
-		return spr_results, pg_results, nil
-	}
-
 	spr_where := []string{
 		fmt.Sprintf("id IN (%s)", strings.Join(qms, ",")),
 	}
 
 	str_spr_where := strings.Join(spr_where, " AND ")
-	return s.querySPR(ctx, pg_opts, str_spr_where, ids...)
+	spr_rsp, _, err := s.querySPR(ctx, nil, str_spr_where, ids...)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return spr_rsp, pg_results, nil
 }
 
 // HasConcordanceFaceted retrieves faceted properties for records with a given concordance in a SQLSpelunker database.

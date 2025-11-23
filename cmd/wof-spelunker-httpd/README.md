@@ -246,21 +246,23 @@ The URL for the Spelunker "about" page. For example `http://localhost:8080/about
 
 #### /concordances
 
-![](../../docs/images/wof-spelunker-corcordances.png)
+![](../../docs/images/wof-spelunker-concordances.png)
 
 The URL for the page listing all the concordances in a Spelunker index. For example `http://localhost:8080/concordances/`.
 
 #### /concordances/{namespace}
 
-The URL for the page listing all the records matching a specific concordance namespace in a Spelunker index. For example `http://localhost:8080/concordances/gp`.
+![](../../docs/images/wof-spelunker-concordances-ns.png)
 
-#### /concordances/{namespace}:{predicate}
+The URL for the page listing all the records matching a specific concordance namespace in a Spelunker index. For example `http://localhost:8080/concordances/qs`.
 
-The URL for the page listing all the records matching a specific concordance namespace and predicate in a Spelunker index. For example `http://localhost:8080/concordances/foo:bar`.
+#### /concordances/{namespace}/{predicate}
 
-#### /concordances/{namespace}:{predicate}={value}
+The URL for the page listing all the records matching a specific concordance namespace and predicate in a Spelunker index. For example `http://localhost:8080/concordances/qs/a0`.
 
-The URL for the page listing all the records matching a specific concordance in a Spelunker index. For example `http://localhost:8080/concordances/foo:bar=baz`.
+#### /concordances/{namespace}/{predicate}/{value}
+
+The URL for the page listing all the records matching a specific concordance in a Spelunker index. For example `http://localhost:8080/concordances/qs/a0/Canada`.
 
 #### /id/{id}
 
@@ -288,6 +290,8 @@ The URL for the page listing all the placetypes in a Spelunker index. For exampl
 
 #### /placetypes/{placetype}
 
+![](../../docs/images/wof-spelunker-placetype.png)
+
 The URL for the page listing all the records matching a specific placetype in a Spelunker index. For example `http://localhost:8080/placetypes/locality/`.
 
 #### /recent/{duration}
@@ -312,40 +316,56 @@ The URL for the page for search records in a Spelunker index. For example `http:
 
 #### /id/{id}/descendants/facets
 
+![](../../docs/images/wof-spelunker-descendants-facets.png)
+
+For example `http://localhost:8080/id/85682113/descendants/facets?facet=placetype`.
+
 #### /id/{id}/geojson
 
 ![](../../docs/images/wof-spelunker-geojson.png)
+
+For example `http://localhost:8080/id/101736545/geojson`.
 
 #### /id/{id}/geojsonld
 
 ![](../../docs/images/wof-spelunker-geojsonld.png)
 
+For example `http://localhost:8080/id/101736545/geojsonld`.
+
 #### /id/{id}/navplace
 
 ![](../../docs/images/wof-spelunker-navplace.png)
 
-#### /nullisland/facets
+For example `http://localhost:8080/id/101736545/navplace`.
 
-#### /opensearch
+#### /id/{id}/select
+
+![](../../docs/images/wof-spelunker-select.png)
+
+For example `http://localhost:8080/id/101736545/select?select=properties.name:eng_x_colloquial`.
+
+#### /id/{id}/spr
+
+![](../../docs/images/wof-spelunker-spr.png)
+
+For example `http://localhost:8080/id/101736545/spr`.
+
+#### /id/{id}/svg
+
+![](../../docs/images/wof-spelunker-svg.png)
+
+For example `http://localhost:8080/id/101736545/svg`.
+
+#### /id/{id}/wkt
+
+![](../../docs/images/wof-spelunker-wkt.png)
+
+For example `http://localhost:8080/id/101736545/wkt`.
+
+#### /nullisland/facets
 
 #### /placetypes/{placetype}/facets
 
 #### /recent/{duration}/facets
 
 #### /search/facets
-
-#### /id/{id}/select
-
-![](../../docs/images/wof-spelunker-select.png)
-
-#### /id/{id}/spr
-
-![](../../docs/images/wof-spelunker-spr.png)
-
-#### /id/{id}/svg
-
-![](../../docs/images/wof-spelunker-svg.png)
-
-#### /id/{id}/wkt
-
-![](../../docs/images/wof-spelunker-wkt.png)

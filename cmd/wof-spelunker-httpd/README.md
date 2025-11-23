@@ -1,5 +1,7 @@
 # wof-spelunker-httpd
 
+![](../../docs/images/wof-spelunker-montreal.png)
+
 Start the Spelunker web application.
 
 ```
@@ -24,6 +26,8 @@ Valid options are:
     	A valid `aaronland/go-http/v3/server.Server URI. (default "http://localhost:8080")
   -spelunker-uri string
     	A URI in the form of '{SPELUNKER_SCHEME}://{IMPLEMENTATION_DETAILS}' referencing the underlying Spelunker database. For example: sql://sqlite3?dsn=spelunker.db (default "null://")
+  -verbose
+    	Enable verbose (debug) logging.	
 ```
 
 ## Things the Spelunker web application does NOT do
@@ -318,92 +322,92 @@ The URL for the page for search records in a Spelunker index. For example `http:
 
 ![](../../docs/images/wof-spelunker-concordance-ns-facets.png)
 
-For example `http://localhost:8080/concordances/qs/facets?facet=placetype`.
+The URL to return JSON-encoded facets for records with concordance matching a specific namespace. For example `http://localhost:8080/concordances/qs/facets?facet=placetype`.
 
 #### /concordances/{namespace}:{predicate}/facets?facet={FACET}
 
 ![](../../docs/images/wof-spelunker-concordance-ns-pred-facets.png)
 
-For example `http://localhost:8080/concordances/*:id=/facets?facet=placetype`
+The URL to return JSON-encoded facets for records concordances matching a specific namespace and predicate. For example `http://localhost:8080/concordances/*:id=/facets?facet=placetype`
 
 #### /concordances/{namespace}:{predicate}={value}/facets?facet={FACET}
 
-For example `http://localhost:8080/concordances/gp:id=3534/facets?facet=placetype`
+The URL to return JSON-encoded facets for records with concordances matching a specific namespace, predicate and value triple. For example `http://localhost:8080/concordances/gp:id=3534/facets?facet=placetype`
 
 #### /findingaid
 
 ![](../../docs/images/wof-spelunker-findingaid.png)
 
-For example `http://localhost:8080/findingaid/101736545`.
+The URL to return the "wof:repo" value for a specific Who's On First record. For example `http://localhost:8080/findingaid/101736545`.
 
 #### /id/{id}/descendants/facets?facet={FACET}
 
 ![](../../docs/images/wof-spelunker-descendants-facets.png)
 
-For example `http://localhost:8080/id/85682113/descendants/facets?facet=placetype`.
+The URL to return JSON-encoded facets for descendants of a specific Who's On First record. For example `http://localhost:8080/id/85682113/descendants/facets?facet=placetype`.
 
 #### /id/{id}/geojson
 
 ![](../../docs/images/wof-spelunker-geojson.png)
 
-For example `http://localhost:8080/id/101736545/geojson`.
+The URL to return the GeoJSON Feature representation for a specific Who's On First record. For example `http://localhost:8080/id/101736545/geojson`.
 
 #### /id/{id}/geojsonld
 
 ![](../../docs/images/wof-spelunker-geojsonld.png)
 
-For example `http://localhost:8080/id/101736545/geojsonld`.
+The URL to return the GeoJSON-LD representation for a specific Who's On First record. For example `http://localhost:8080/id/101736545/geojsonld`.
 
 #### /id/{id}/navplace
 
 ![](../../docs/images/wof-spelunker-navplace.png)
 
-For example `http://localhost:8080/id/101736545/navplace`.
+The URL to return the IIIF "NavPlace" representation for a specific Who's On First record. For example `http://localhost:8080/id/101736545/navplace`.
 
 #### /id/{id}/select
 
 ![](../../docs/images/wof-spelunker-select.png)
 
-For example `http://localhost:8080/id/101736545/select?select=properties.name:eng_x_colloquial`.
+The URL to return "selected" properties from a Who's On First record. For example `http://localhost:8080/id/101736545/select?select=properties.name:eng_x_colloquial`.
 
 #### /id/{id}/spr
 
 ![](../../docs/images/wof-spelunker-spr.png)
 
-For example `http://localhost:8080/id/101736545/spr`.
+The URL to return the "Standard Places Response" (SPR) representation for a specific Who's On First record. For example `http://localhost:8080/id/101736545/spr`.
 
 #### /id/{id}/svg
 
 ![](../../docs/images/wof-spelunker-svg.png)
 
-For example `http://localhost:8080/id/101736545/svg`.
+The URL to return an SVG representation of a specific Who's On First record's geometry. For example `http://localhost:8080/id/101736545/svg`.
 
 #### /id/{id}/wkt
 
 ![](../../docs/images/wof-spelunker-wkt.png)
 
-For example `http://localhost:8080/id/101736545/wkt`.
+The URL to return the geometry for a specific Who's On First record as a WKT-encoded string. For example `http://localhost:8080/id/101736545/wkt`.
 
 #### /nullisland/facets?facet={FACET}
 
 ![](../../docs/images/wof-spelunker-null-facets.png)
 
-For example `http://localhost:8080/nullisland/facets?facet=country`.
+The URL to return JSON-encoded facets for records that are "visiting" Null Island. For example `http://localhost:8080/nullisland/facets?facet=country`.
 
 #### /placetypes/{placetype}/facets
 
 ![](../../docs/images/wof-spelunker-placetype-facets.png)
 
-For example `http://localhost:8080/placetypes/locality/facets?facet=is_current`.
+The URL to return JSON-encoded facets for records with a specific placetype. For example `http://localhost:8080/placetypes/locality/facets?facet=is_current`.
 
 #### /recent/{duration}/facets
 
 ![](../../docs/images/wof-spelunker-recent-facets.png)
 
-For example `http://localhost:8080/recent/P90D/facets?facet=is_current`.
+The URL to return JSON-encoded facets for records that have been updated within a specific time period. For example `http://localhost:8080/recent/P90D/facets?facet=is_current`.
 
 #### /search/facets?q={QUERY}&facet={FACET}
 
 ![](../../docs/images/wof-spelunker-search-facets.png)
 
-For example `http://localhost:8080/search/facets?q=Vancouver&facet=is_current`
+The URL to return JSON-encoded facets for a search query. For example `http://localhost:8080/search/facets?q=Vancouver&facet=is_current`

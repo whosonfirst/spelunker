@@ -91,6 +91,8 @@ Valid options are:
     	A valid `aaronland/go-http/v3/server.Server URI. (default "http://localhost:8080")
   -spelunker-uri string
     	A URI in the form of '{SPELUNKER_SCHEME}://{IMPLEMENTATION_DETAILS}' referencing the underlying Spelunker database. For example: sql://sqlite3?dsn=spelunker.db (default "null://")
+  -verbose
+    	Enable verbose (debug) logging.	
 ```
 
 See [cmd/wof-spelunker-httpd/README.md](cmd/wof-spelunker-httpd/README.md) for details (including relevant build tags for specific database implementations).
@@ -307,7 +309,7 @@ _Error handling removed for the sake of brevity._
 
 ## Motivation
 
-This is a refactoring of both the [whosonfirst/whosonfirst-www-spelunker](https://github.com/whosonfirst/whosonfirst-www-spelunker), [whosonfirst/go-whosonfirst-browser](https://github.com/whosonfirst/go-whosonfirst-browser) and [whosonfirst/go-whosonfirst-spelunker](https://github.com/whosonfirst/go-whosonfirst-spelunker) packages.
+This is a refactoring of both the [whosonfirst/whosonfirst-www-spelunker](https://github.com/whosonfirst/whosonfirst-www-spelunker), [whosonfirst/go-whosonfirst-browser](https://github.com/whosonfirst/go-whosonfirst-browser) and [whosonfirst/go-whosonfirst-spelunker](https://github.com/whosonfirst?q=go-whosonfirst-spelunker&type=all&language=&sort=) packages.
 
 Specifically, the former (`whosonfirst-www-spelunker`) is written in Python and ha a sufficiently complex set of requirements that spinning up a new instance was difficult. By rewriting the spelunker tool in Go the hope is to eliminate or at least minimize these external requirements and to make it easier to deploy the spelunker to "serverless" environments like AWS Lambda or Function URLs. The latter (`go-whosonfirst-browser`) has developed a sufficiently large and complex code base that starting from scratch and simply copying, and adapting, existing functionality seemed easier than trying to refactor everything.
 

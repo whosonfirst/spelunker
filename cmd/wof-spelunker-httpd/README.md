@@ -320,11 +320,21 @@ The URL for the page for search records in a Spelunker index. For example `http:
 
 For example `http://localhost:8080/concordances/qs/facets?facet=placetype`.
 
-#### /concordances/{namespace}:{predicate}/facets
+#### /concordances/{namespace}:{predicate}/facets?facet={FACET}
 
-#### /concordances/{namespace}:{predicate}={value}/facets
+![](../../docs/images/wof-spelunker-concordance-ns-pred-facets.png)
+
+For example `http://localhost:8080/concordances/*:id=/facets?facet=placetype`
+
+#### /concordances/{namespace}:{predicate}={value}/facets?facet={FACET}
+
+For example `http://localhost:8080/concordances/gp:id=3534/facets?facet=placetype`
 
 #### /findingaid
+
+![](../../docs/images/wof-spelunker-findingaid.png)
+
+For example `http://localhost:8080/findingaid/101736545`.
 
 #### /id/{id}/descendants/facets?facet={FACET}
 
@@ -388,4 +398,12 @@ For example `http://localhost:8080/placetypes/locality/facets?facet=is_current`.
 
 #### /recent/{duration}/facets
 
-#### /search/facets
+![](../../docs/images/wof-spelunker-recent-facets.png)
+
+For example `http://localhost:8080/recent/P90D/facets?facet=is_current`.
+
+#### /search/facets?q={QUERY}&facet={FACET}
+
+![](../../docs/images/wof-spelunker-search-facets.png)
+
+For example `http://localhost:8080/search/facets?q=Vancouver&facet=is_current`

@@ -35,7 +35,7 @@ func (s *SQLSpelunker) GetSPRForId(ctx context.Context, id int64, uri_args *uri.
 
 	cols := s.sprQueryColumnsAll(ctx)
 
-	q := fmt.Sprintf("SELECT %s FROM %s WHERE id = ?", tables.SPR_TABLE_NAME, strings.Join(cols, ", "))
+	q := fmt.Sprintf("SELECT %s FROM %s WHERE id = ?", strings.Join(cols, ", "), tables.SPR_TABLE_NAME)
 
 	args := []interface{}{
 		id,

@@ -108,7 +108,7 @@ func SPRFromRequestURI(ctx context.Context, sp spelunker.Spelunker, req_uri *wof
 	f, err := sp.GetSPRForId(ctx, wof_id, req_uri.URIArgs)
 
 	if err != nil {
-		return nil, fmt.Errorf("Failed to retrieve record for %d, %w", wof_id, err)
+		return nil, fmt.Errorf("Failed to retrieve SPR for %d, %w", wof_id, err)
 	}
 
 	return f, nil

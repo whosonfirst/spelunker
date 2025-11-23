@@ -21,65 +21,65 @@ var spelunker_roster roster.Roster
 // an instance of that spelunker
 type SpelunkerInitializationFunc func(ctx context.Context, uri string) (Spelunker, error)
 
-// Spelunker is an interface for writing data to multiple sources or targets.
+// Spelunker is an interface for reading and querying Who's On First style data from an "index" (a database or queryable datafile).
 type Spelunker interface {
 
-	// Retrieve properties (or more specifically the "document") for...
+	// Retrieve properties (or more specifically the "document") for a given ID.
 	GetRecordForId(context.Context, int64, *uri.URIArgs) ([]byte, error)
+	// Retrieve the `spr.StandardPlaceResult` instance for a given ID.
 	GetSPRForId(context.Context, int64, *uri.URIArgs) (spr.StandardPlacesResult, error)
-	// Retrive GeoJSON Feature for...
+	// Retrieve the GeoJSON Feature record for a given ID.
 	GetFeatureForId(context.Context, int64, *uri.URIArgs) ([]byte, error)
 
 	// Retrieve all the Who's On First record that are a descendant of a specific Who's On First ID.
 	GetDescendants(context.Context, pagination.Options, int64, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records that are a descendant of a specific Who's On First ID.
 	GetDescendantsFaceted(context.Context, int64, []Filter, []*Facet) ([]*Faceting, error)
 	// Return the total number of Who's On First records that are a descendant of a specific Who's On First ID.
 	CountDescendants(context.Context, int64) (int64, error)
 
 	// Retrieve all the Who's On First records that match a search criteria.
 	Search(context.Context, pagination.Options, *SearchOptions, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records match a search criteria.
 	SearchFaceted(context.Context, *SearchOptions, []Filter, []*Facet) ([]*Faceting, error)
 
 	// Retrieve all the Who's On First records that have been modified with a window of time.
 	GetRecent(context.Context, pagination.Options, time.Duration, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records that have been modified with a window of time.
 	GetRecentFaceted(context.Context, time.Duration, []Filter, []*Facet) ([]*Faceting, error)
 
+	// Retrieve the list of unique placetypes in a Spleunker index.
 	GetPlacetypes(context.Context) (*Faceting, error)
+	// Retrieve the list of records with a given placetype.
 	HasPlacetype(context.Context, pagination.Options, *placetypes.WOFPlacetype, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records with a given placetype.
 	HasPlacetypeFaceted(context.Context, *placetypes.WOFPlacetype, []Filter, []*Facet) ([]*Faceting, error)
 
+	// Retrieve the list of alternate placetype ("wof:placetype_alt") in a SQLSpelunker database.
+	GetAlternatePlacetypes(context.Context) (*Faceting, error)
+	// Retrieve the list of Who's On First records with a given alternate placetype ("wof:placetype_alt") in a SQLSpelunker database.
+	HasAlternatePlacetype(context.Context, pagination.Options, string, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records with a given alternate placetype ("wof:placetype_alt") in a SQLSpelunker database.
+	HasAlternatePlacetypeFaceted(context.Context, string, []Filter, []*Facet) ([]*Faceting, error)
+
+	// Retrieve the list of unique concordances in a Spelunker index.
 	GetConcordances(context.Context) (*Faceting, error)
+	// Retrieve the list of records with a given concordance.
 	HasConcordance(context.Context, pagination.Options, string, string, any, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records with a given concordance.
 	HasConcordanceFaceted(context.Context, string, string, any, []Filter, []*Facet) ([]*Faceting, error)
 
+	// Retrieve the list of unique tags in a Spelunker index.
 	GetTags(context.Context) (*Faceting, error)
+	// Retrieve the list of records that have a given tag.
 	HasTag(context.Context, pagination.Options, string, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records that have a given tag.
 	HasTagFaceted(context.Context, string, []Filter, []*Facet) ([]*Faceting, error)
 
+	// Retrieve the list of records that are "visiting Null Island" (have a latitude, longitude value of "0.0, 0.0".
 	VisitingNullIsland(context.Context, pagination.Options, []Filter) (spr.StandardPlacesResults, pagination.Results, error)
+	// Retrieve faceted properties for records that are "visiting Null Island" (have a latitude, longitude value of "0.0, 0.0".
 	VisitingNullIslandFaceted(context.Context, []Filter, []*Facet) ([]*Faceting, error)
-
-	// TBD...
-	// Unclear whether this should implement all of https://github.com/whosonfirst/go-whosonfirst-spatial/blob/main/spatial.go#L11
-	// or https://github.com/whosonfirst/go-whosonfirst-spatial/blob/main/database/database.go#L16
-	//
-	// See also:
-	// https://github.com/whosonfirst/go-whosonfirst-spatial-pip/blob/main/http/api/pointinpolygon.go
-	// which in turns requires implementing https://github.com/whosonfirst/go-whosonfirst-spatial/blob/main/app/app.go#L21
-	//
-	// So it all starts to be a bit much...
-	//
-	// Maybe all we want are the structs and helper methods from this
-	// https://github.com/whosonfirst/go-whosonfirst-spatial-pip/blob/main/pip.go
-	//
-	// But as twisty as all the spatial database stuff is when you start trying to make a simpler
-	// version you just always end up with the same problems and questions...
-	//
-	// See also:
-	// https://github.com/whosonfirst/go-whosonfirst-spatial-pmtiles/blob/main/database.go
-	//
-	// PointInPolygon(context.Context, orb.Point) (spr.StandardPlacesResults, error)
-
 }
 
 // RegisterSpelunker registers 'scheme' as a key pointing to 'init_func' in an internal lookup table
@@ -131,12 +131,16 @@ func NewSpelunker(ctx context.Context, uri string) (Spelunker, error) {
 		return nil, err
 	}
 
+	if i == nil {
+		return nil, fmt.Errorf("Scheme not implemented")
+	}
+
 	init_func := i.(SpelunkerInitializationFunc)
 	return init_func(ctx, uri)
 }
 
-// Schemes returns the list of schemes that have been registered.
-func Schemes() []string {
+// SpelunkerSchemes returns the list of schemes that have been registered.
+func SpelunkerSchemes() []string {
 
 	ctx := context.Background()
 	schemes := []string{}

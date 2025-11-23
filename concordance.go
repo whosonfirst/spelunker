@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Concordance implements the `MachineTag` interface for records from external sources that Who's On First records have concordances with.
 type Concordance struct {
 	MachineTag
 	namespace string
@@ -11,10 +12,14 @@ type Concordance struct {
 	value     any
 }
 
+// NewConcordanceFromString derives a new `Concordance` instance from 'str_concordance' which is expected to take the form of:
+//
+//	{NAMESPACE}:{PREDICATE}={VALUE}
 func NewConcordanceFromString(str_concordance string) (*Concordance, error) {
 	return nil, ErrNotImplemented
 }
 
+// NewConcordanceFromString derives a new `Concordance` instance from 'namespace' and 'predicate' and 'value'.
 func NewConcordanceFromTriple(namespace string, predicate string, value any) *Concordance {
 
 	c := &Concordance{
@@ -26,18 +31,22 @@ func NewConcordanceFromTriple(namespace string, predicate string, value any) *Co
 	return c
 }
 
+// Namespace returns the namespace associated with 'c'.
 func (c *Concordance) Namespace() string {
 	return c.namespace
 }
 
+// Predicate returns the predicate associated with 'c'.
 func (c *Concordance) Predicate() string {
 	return c.predicate
 }
 
+// Concordance returns the value associated with 'c'.
 func (c *Concordance) Value() any {
 	return c.value
 }
 
+// String returns the string representation of 'c'.
 func (c *Concordance) String() string {
 
 	var str_concordance string

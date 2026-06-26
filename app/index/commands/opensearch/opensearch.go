@@ -10,7 +10,7 @@ import (
 	_ "github.com/whosonfirst/go-whosonfirst/v4/database/opensearch/writer"
 
 	"github.com/opensearch-project/opensearch-go/v4/opensearchapi"
-	iterwriter_app "github.com/whosonfirst/go-whosonfirst/v4/app/iterwriter"
+	iterwriter_app "github.com/whosonfirst/go-whosonfirst/v4/app/iterate/writer"
 	"github.com/whosonfirst/go-whosonfirst/v4/database/opensearch/client"
 	"github.com/whosonfirst/go-whosonfirst/v4/database/opensearch/schema/v2"
 	"github.com/whosonfirst/go-whosonfirst/v4/iterate/writer"

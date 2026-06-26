@@ -10,7 +10,7 @@ import (
 	"github.com/aaronland/go-pagination/countable"
 	"github.com/whosonfirst/go-whosonfirst/v4/database/sql/tables"
 	wof_spr "github.com/whosonfirst/go-whosonfirst/v4/spr"
-	"github.com/whosonfirst/go-whosonfirst/v4/spr/sqlite"
+	spr "github.com/whosonfirst/go-whosonfirst/v4/spr/sqlite"
 	"github.com/whosonfirst/spelunker/v2"
 )
 

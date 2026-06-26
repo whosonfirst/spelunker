@@ -13,7 +13,7 @@ import (
 	iterwriter_app "github.com/whosonfirst/go-whosonfirst/v4/app/iterate/writer"
 	"github.com/whosonfirst/go-whosonfirst/v4/database/opensearch/client"
 	"github.com/whosonfirst/go-whosonfirst/v4/database/opensearch/schema/v2"
-	"github.com/whosonfirst/go-whosonfirst/v4/iterate/writer"
+	iterwriter "github.com/whosonfirst/go-whosonfirst/v4/iterate/writer"
 	"github.com/whosonfirst/go-writer/v3"
 	"github.com/whosonfirst/spelunker/v2/app/index/commands"
 )

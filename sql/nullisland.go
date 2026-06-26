@@ -61,14 +61,14 @@ func (s *SQLSpelunker) VisitingNullIslandFaceted(ctx context.Context, filters []
 	return results, nil
 }
 
-func (s *SQLSpelunker) visitingNullIslandQueryWhere(filters []spelunker.Filter) ([]string, []interface{}, error) {
+func (s *SQLSpelunker) visitingNullIslandQueryWhere(filters []spelunker.Filter) ([]string, []any, error) {
 
 	where := []string{
 		"latitude = ?",
 		"longitude = ?",
 	}
 
-	args := []interface{}{
+	args := []any{
 		0.0,
 		0.0,
 	}

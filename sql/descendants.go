@@ -208,13 +208,13 @@ func (s *SQLSpelunker) CountDescendants(ctx context.Context, id int64) (int64, e
 	}
 }
 
-func (s *SQLSpelunker) descendantsQueryWhere(ctx context.Context, id int64, filters []spelunker.Filter) ([]string, []interface{}, error) {
+func (s *SQLSpelunker) descendantsQueryWhere(ctx context.Context, id int64, filters []spelunker.Filter) ([]string, []any, error) {
 
 	where := []string{
 		fmt.Sprintf("%s.ancestor_id = ?", tables.ANCESTORS_TABLE_NAME),
 	}
 
-	args := []interface{}{
+	args := []any{
 		id,
 	}
 

@@ -111,13 +111,13 @@ func (s *SQLSpelunker) HasPlacetypeFaceted(ctx context.Context, pt *placetypes.W
 	return results, nil
 }
 
-func (s *SQLSpelunker) hasPlacetypeQueryWhere(pt *placetypes.WOFPlacetype, filters []spelunker.Filter) ([]string, []interface{}, error) {
+func (s *SQLSpelunker) hasPlacetypeQueryWhere(pt *placetypes.WOFPlacetype, filters []spelunker.Filter) ([]string, []any, error) {
 
 	where := []string{
 		"placetype = ?",
 	}
 
-	args := []interface{}{
+	args := []any{
 		pt.Name,
 	}
 

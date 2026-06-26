@@ -62,7 +62,7 @@ func (s *SQLSpelunker) GetRecentFaceted(ctx context.Context, d time.Duration, fi
 	return results, nil
 }
 
-func (s *SQLSpelunker) getRecentQueryWhere(d time.Duration, filters []spelunker.Filter) ([]string, []interface{}, error) {
+func (s *SQLSpelunker) getRecentQueryWhere(d time.Duration, filters []spelunker.Filter) ([]string, []any, error) {
 
 	now := time.Now()
 	then := now.Unix() - int64(d.Seconds())
@@ -71,7 +71,7 @@ func (s *SQLSpelunker) getRecentQueryWhere(d time.Duration, filters []spelunker.
 		"lastmodified >= ?",
 	}
 
-	args := []interface{}{
+	args := []any{
 		then,
 	}
 

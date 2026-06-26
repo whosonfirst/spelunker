@@ -16,7 +16,7 @@ import (
 	"github.com/whosonfirst/spelunker/v2"
 )
 
-func (s *SQLSpelunker) queryCount(ctx context.Context, col string, q string, args ...interface{}) (int64, error) {
+func (s *SQLSpelunker) queryCount(ctx context.Context, col string, q string, args ...any) (int64, error) {
 
 	parts := strings.Split(q, " FROM ")
 	parts = strings.Split(parts[1], " LIMIT ")
@@ -73,7 +73,7 @@ func (s *SQLSpelunker) selectSPR(ctx context.Context, where string) string {
 	FROM %s WHERE %s`, tables.SPR_TABLE_NAME, where)
 }
 
-func (s *SQLSpelunker) querySPR(ctx context.Context, pg_opts pagination.Options, where string, args ...interface{}) (wof_spr.StandardPlacesResults, pagination.Results, error) {
+func (s *SQLSpelunker) querySPR(ctx context.Context, pg_opts pagination.Options, where string, args ...any) (wof_spr.StandardPlacesResults, pagination.Results, error) {
 
 	if pg_opts != nil {
 		limit, offset := s.deriveLimitOffset(pg_opts)
@@ -191,14 +191,14 @@ func (s *SQLSpelunker) querySPR(ctx context.Context, pg_opts pagination.Options,
 	return spr_results, pg_results, nil
 }
 
-func (s *SQLSpelunker) querySearch(ctx context.Context, pg_opts pagination.Options, where string, args ...interface{}) (wof_spr.StandardPlacesResults, pagination.Results, error) {
+func (s *SQLSpelunker) querySearch(ctx context.Context, pg_opts pagination.Options, where string, args ...any) (wof_spr.StandardPlacesResults, pagination.Results, error) {
 
 	q := fmt.Sprintf("SELECT id FROM %s WHERE %s", tables.SEARCH_TABLE_NAME, where)
 
 	return s.querySearchDo(ctx, pg_opts, q, args...)
 }
 
-func (s *SQLSpelunker) querySearchWithFilters(ctx context.Context, pg_opts pagination.Options, where string, args ...interface{}) (wof_spr.StandardPlacesResults, pagination.Results, error) {
+func (s *SQLSpelunker) querySearchWithFilters(ctx context.Context, pg_opts pagination.Options, where string, args ...any) (wof_spr.StandardPlacesResults, pagination.Results, error) {
 
 	// Note the SQLite specific-iness of this.
 	// TO DO: Add code to "do the right thing" depending on a.engine (MySQL, etc...)
@@ -216,7 +216,7 @@ func (s *SQLSpelunker) querySearchWithFilters(ctx context.Context, pg_opts pagin
 	return s.querySearchDo(ctx, pg_opts, q, args...)
 }
 
-func (s *SQLSpelunker) querySearchDo(ctx context.Context, pg_opts pagination.Options, q string, args ...interface{}) (wof_spr.StandardPlacesResults, pagination.Results, error) {
+func (s *SQLSpelunker) querySearchDo(ctx context.Context, pg_opts pagination.Options, q string, args ...any) (wof_spr.StandardPlacesResults, pagination.Results, error) {
 
 	slog.Debug("Do search", "q", q)
 
@@ -334,7 +334,7 @@ func (s *SQLSpelunker) querySearchDo(ctx context.Context, pg_opts pagination.Opt
 	return spr_results, pg_results, nil
 }
 
-func (s *SQLSpelunker) assignFilters(where []string, args []interface{}, filters []spelunker.Filter) ([]string, []interface{}, error) {
+func (s *SQLSpelunker) assignFilters(where []string, args []any, filters []spelunker.Filter) ([]string, []any, error) {
 
 	for _, f := range filters {
 

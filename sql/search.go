@@ -82,7 +82,7 @@ func (s *SQLSpelunker) SearchFaceted(ctx context.Context, search_opts *spelunker
 	return results, nil
 }
 
-func (s *SQLSpelunker) searchQueryWhere(search_opts *spelunker.SearchOptions, filters []spelunker.Filter) ([]string, []interface{}, error) {
+func (s *SQLSpelunker) searchQueryWhere(search_opts *spelunker.SearchOptions, filters []spelunker.Filter) ([]string, []any, error) {
 
 	if len(filters) == 0 {
 
@@ -90,7 +90,7 @@ func (s *SQLSpelunker) searchQueryWhere(search_opts *spelunker.SearchOptions, fi
 			"names_all MATCH ?",
 		}
 
-		args := []interface{}{
+		args := []any{
 			search_opts.Query,
 		}
 
@@ -103,7 +103,7 @@ func (s *SQLSpelunker) searchQueryWhere(search_opts *spelunker.SearchOptions, fi
 		fmt.Sprintf("%s.names_all MATCH ?", tables.SEARCH_TABLE_NAME),
 	}
 
-	args := []interface{}{
+	args := []any{
 		search_opts.Query,
 	}
 

@@ -26,8 +26,6 @@ require (
 	github.com/whosonfirst/go-reader-findingaid/v2 v2.1.2
 	github.com/whosonfirst/go-reader-github/v2 v2.0.4
 	github.com/whosonfirst/go-reader/v2 v2.1.0
-	github.com/whosonfirst/go-whosonfirst-placetypes v0.9.0
-	github.com/whosonfirst/go-whosonfirst-sources v0.2.0
 	github.com/whosonfirst/go-whosonfirst/v4 v4.0.1
 	github.com/whosonfirst/go-writer/v3 v3.1.1
 	golang.org/x/text v0.38.0
@@ -116,6 +114,7 @@ require (
 	github.com/whosonfirst/go-rfc-5646 v0.1.0 // indirect
 	github.com/whosonfirst/go-sanitize v0.1.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-findingaid/v2 v2.11.2 // indirect
+	github.com/whosonfirst/go-whosonfirst-sources v0.2.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-uri v1.3.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	go.mongodb.org/mongo-driver/v2 v2.5.0 // indirect

@@ -324,8 +324,6 @@ github.com/whosonfirst/go-sanitize v0.1.0 h1:ygSqCnakwdzH/m8UEa15zXGDsoo5/JJeRkg
 github.com/whosonfirst/go-sanitize v0.1.0/go.mod h1:p/emgbafMM0p5iVAz2XWwecYPl06Tw4Jos9rhTKIrt8=
 github.com/whosonfirst/go-whosonfirst-findingaid/v2 v2.11.2 h1:L7OJRN2+MSjSONFV4WomCV+aPYXb4ir4r+NtzdhWuTc=
 github.com/whosonfirst/go-whosonfirst-findingaid/v2 v2.11.2/go.mod h1:1ptuyObPVUmwrZk474O8sGR59Z0sxAzZZKh2zmb9l00=
-github.com/whosonfirst/go-whosonfirst-placetypes v0.9.0 h1:lkr0t2igLF6binAlP1n6Sx7kCwsAeLsKDp9ar2M7a0A=
-github.com/whosonfirst/go-whosonfirst-placetypes v0.9.0/go.mod h1:4kUVNaG1uuWHjPcK/oBSKDuERJ9sFAMAfet98LWHpOY=
 github.com/whosonfirst/go-whosonfirst-sources v0.1.0/go.mod h1:EUMHyGzUmqPPxlMmOp+28BFeoBdxxE0HCKRd67lkqGM=
 github.com/whosonfirst/go-whosonfirst-sources v0.2.0 h1:G5U5lgtNUYHdJloEsI+uqQx5s+Q+zaQpq17nDMx2r2o=
 github.com/whosonfirst/go-whosonfirst-sources v0.2.0/go.mod h1:oAYirIVWxBmpE4/J0p7kpYqmgtQVDCyff2qJ8JzhdHc=

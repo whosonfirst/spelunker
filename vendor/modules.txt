@@ -558,9 +558,6 @@ github.com/whosonfirst/go-sanitize
 # github.com/whosonfirst/go-whosonfirst-findingaid/v2 v2.11.2
 ## explicit; go 1.25.0
 github.com/whosonfirst/go-whosonfirst-findingaid/v2/resolver
-# github.com/whosonfirst/go-whosonfirst-placetypes v0.9.0
-## explicit; go 1.24
-github.com/whosonfirst/go-whosonfirst-placetypes
 # github.com/whosonfirst/go-whosonfirst-sources v0.2.0
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-sources

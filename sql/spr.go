@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/whosonfirst/go-whosonfirst-database/sql/tables"
+	"github.com/whosonfirst/go-whosonfirst/v4/database/sql/tables"
 	"github.com/whosonfirst/spelunker/v2"
 )
 

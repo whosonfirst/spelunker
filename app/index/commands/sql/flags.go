@@ -8,7 +8,7 @@ import (
 
 	"github.com/sfomuseum/go-flags/flagset"
 	"github.com/sfomuseum/go-flags/multi"
-	"github.com/whosonfirst/go-whosonfirst-iterate/v3"
+	"github.com/whosonfirst/go-whosonfirst/v4/iterate"
 )
 
 var iterator_uri string
@@ -31,7 +31,7 @@ func DefaultFlagSet() *flag.FlagSet {
 	fs := flagset.NewFlagSet("index")
 
 	valid_schemes := strings.Join(iterate.IteratorSchemes(), ",")
-	iterator_desc := fmt.Sprintf("A valid whosonfirst/go-whosonfirst-iterate/v3.Iterator URI. Supported iterator URI schemes are: %s", valid_schemes)
+	iterator_desc := fmt.Sprintf("A valid whosonfirst/go-whosonfirst/v4/iterate.Iterator URI. Supported iterator URI schemes are: %s", valid_schemes)
 
 	fs.StringVar(&iterator_uri, "iterator-uri", "repo://", iterator_desc)
 

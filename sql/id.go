@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/whosonfirst/go-whosonfirst-database/opensearch/document"
-	"github.com/whosonfirst/go-whosonfirst-database/sql/tables"
-	wof_spr "github.com/whosonfirst/go-whosonfirst-spr/v2"
-	"github.com/whosonfirst/go-whosonfirst-sqlite-spr"
-	"github.com/whosonfirst/go-whosonfirst-uri"
+	"github.com/whosonfirst/go-whosonfirst/v4/database/opensearch/document"
+	"github.com/whosonfirst/go-whosonfirst/v4/database/sql/tables"
+	wof_spr "github.com/whosonfirst/go-whosonfirst/v4/spr"
+	"github.com/whosonfirst/go-whosonfirst/v4/spr/sqlite"
+	"github.com/whosonfirst/go-whosonfirst/v4/uri"
 	"github.com/whosonfirst/spelunker/v2"
 )
 

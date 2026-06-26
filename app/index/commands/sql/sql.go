@@ -3,7 +3,7 @@ package sql
 import (
 	"context"
 
-	sql_index "github.com/whosonfirst/go-whosonfirst-database/app/sql/tables/index"
+	sql_index "github.com/whosonfirst/go-whosonfirst/v4/database/app/sql/tables/index"
 	"github.com/whosonfirst/spelunker/v2/app/index/commands"
 )
 

@@ -17,7 +17,7 @@ import (
 type WOFAltStandardPlacesResult struct {
 	StandardPlacesResult `json:",omitempty"`
 	WOFId                string  `json:"wof:id"`
-	WOFParentId          int64   `json:wof:parent_id"`
+	WOFParentId          int64   `json:"wof:parent_id"`
 	WOFName              string  `json:"wof:name"`
 	WOFPlacetype         string  `json:"wof:placetype"`
 	MZLatitude           float64 `json:"mz:latitude"`

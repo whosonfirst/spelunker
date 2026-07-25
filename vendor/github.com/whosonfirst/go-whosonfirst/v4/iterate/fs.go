@@ -134,7 +134,6 @@ func (it *FSIterator) Iterate(ctx context.Context, uris ...string) iter.Seq2[*Re
 		}
 	}
 
-	return nil
 }
 
 // Seen() returns the total number of records processed so far.

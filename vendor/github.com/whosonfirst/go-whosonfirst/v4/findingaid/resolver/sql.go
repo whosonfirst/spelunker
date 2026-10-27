@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/url"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 // type SQLiteResolver implements the `Resolver` interface for data stored in a SQLite database..
@@ -70,4 +70,8 @@ func (r *SQLiteResolver) GetRepo(ctx context.Context, id int64) (string, error) 
 	}
 
 	return repo, nil
+}
+
+func (r *SQLiteResolver) Close() error {
+	return r.db.Close()
 }

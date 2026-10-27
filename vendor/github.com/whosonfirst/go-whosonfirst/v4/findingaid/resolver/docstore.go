@@ -92,3 +92,7 @@ func (r *DocstoreResolver) GetRepo(ctx context.Context, id int64) (string, error
 	repo := doc["repo_name"].(string)
 	return repo, nil
 }
+
+func (r *DocstoreResolver) Close() error {
+	return r.collection.Close()
+}

@@ -15,6 +15,8 @@ import (
 type Resolver interface {
 	// GetRepo returns the repository name matching an ID.
 	GetRepo(context.Context, int64) (string, error)
+	// Shutdown any underlying resolver connections or resources.
+	Close() error
 }
 
 // type ResolverInitializeFunc defines an initialization function for a storage-specific implementation of the Resolver interface.

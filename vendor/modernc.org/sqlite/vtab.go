@@ -11,7 +11,6 @@ import (
 	"unsafe"
 
 	"modernc.org/libc"
-	"modernc.org/libc/sys/types"
 	sqlite3 "modernc.org/sqlite/lib"
 	"modernc.org/sqlite/vtab"
 )
@@ -37,14 +36,13 @@ var (
 		name2id: make(map[string]uintptr),
 	}
 
-	// nativeModules holds sqlite3_module instances for registered modules,
-	// allocated via libc so that transpiled C code can access them without
-	// tripping Go's checkptr instrumentation.
+	// nativeModules holds sqlite3_module instances for registered modules. We
+	// keep them in Go memory so their addresses remain stable for the C layer.
 	nativeModules = struct {
 		mu sync.RWMutex
-		m  map[string]uintptr
+		m  map[string]*sqlite3.Sqlite3_module
 	}{
-		m: make(map[string]uintptr),
+		m: make(map[string]*sqlite3.Sqlite3_module),
 	}
 
 	// vtabTables maps sqlite3_vtab* (pVtab) to the corresponding Go Table.
@@ -66,16 +64,9 @@ var (
 )
 
 // goModule wraps a vtab.Module implementation with its name.
-//
-// volatile mirrors the opt-in from [vtab.VolatileArgsOpter]: when true, the
-// engine passes argument string/[]byte bodies to Cursor.Filter and Updater
-// Insert/Update as zero-copy views into SQLite-owned memory. The flag is
-// captured once, when the module is registered on a connection, and shared
-// by every table created from this module.
 type goModule struct {
-	name     string
-	impl     vtab.Module
-	volatile bool
+	name string
+	impl vtab.Module
 }
 
 // goTable wraps a vtab.Table implementation and remembers its module.
@@ -123,33 +114,18 @@ func (c *conn) registerSingleModule(name string, m vtab.Module) error {
 		modID = vtabModules.ids.next()
 		vtabModules.name2id[name] = modID
 	}
-	gm := &goModule{name: name, impl: m}
-	if v, ok := m.(vtab.VolatileArgsOpter); ok {
-		gm.volatile = v.VolatileArgs()
-	}
-	vtabModules.m[modID] = gm
+	vtabModules.m[modID] = &goModule{name: name, impl: m}
 	vtabModules.mu.Unlock()
 
 	nativeModules.mu.Lock()
 	defer nativeModules.mu.Unlock()
-	var modPtr uintptr
+	var mod *sqlite3.Sqlite3_module
 	if existing, exists := nativeModules.m[name]; exists {
-		modPtr = existing
+		mod = existing
 	} else {
-		// Allocate with the C allocator so the transpiled SQLite code can
-		// access the struct without tripping Go's checkptr.
-		modPtr = libc.Xcalloc(c.tls, 1, types.Size_t(unsafe.Sizeof(sqlite3.Sqlite3_module{})))
-		if modPtr == 0 {
-			if !ok {
-				vtabModules.mu.Lock()
-				delete(vtabModules.name2id, name)
-				delete(vtabModules.m, modID)
-				vtabModules.mu.Unlock()
-			}
-			return fmt.Errorf("sqlite: failed to allocate module %q", name)
-		}
-		mod := (*sqlite3.Sqlite3_module)(unsafe.Pointer(modPtr))
-		mod.FiVersion = 2
+		// Build a sqlite3_module descriptor with trampolines.
+		mod = &sqlite3.Sqlite3_module{}
+		mod.FiVersion = 1
 		mod.FxCreate = cFuncPointer(vtabCreateTrampoline)
 		mod.FxConnect = cFuncPointer(vtabConnectTrampoline)
 		mod.FxBestIndex = cFuncPointer(vtabBestIndexTrampoline)
@@ -173,7 +149,7 @@ func (c *conn) registerSingleModule(name string, m vtab.Module) error {
 		mod.FxRelease = cFuncPointer(vtabReleaseTrampoline)
 		mod.FxRollbackTo = cFuncPointer(vtabRollbackToTrampoline)
 
-		nativeModules.m[name] = modPtr
+		nativeModules.m[name] = mod
 	}
 
 	// Prepare C string for module name.
@@ -184,7 +160,7 @@ func (c *conn) registerSingleModule(name string, m vtab.Module) error {
 	defer libc.Xfree(c.tls, zName)
 
 	// Register the module with this connection.
-	if rc := sqlite3.Xsqlite3_create_module_v2(c.tls, c.db, zName, modPtr, modID, 0); rc != sqlite3.SQLITE_OK {
+	if rc := sqlite3.Xsqlite3_create_module_v2(c.tls, c.db, zName, uintptr(unsafe.Pointer(mod)), modID, 0); rc != sqlite3.SQLITE_OK {
 		return fmt.Errorf("create_module %q: %w", name, c.errstr(rc))
 	}
 	return nil
@@ -553,11 +529,8 @@ func vtabFilterTrampoline(tls *libc.TLS, pCursor uintptr, idxNum int32, idxStr u
 	if idxStr != 0 {
 		idxStrGo = libc.GoString(idxStr)
 	}
-	volatile := gc.table != nil && gc.table.mod != nil && gc.table.mod.volatile
-	sp := functionArgs(tls, argc, argv, volatile)
-	defer releaseUDFArgs(sp)
-	err := gc.impl.Filter(int(idxNum), idxStrGo, *sp)
-	if err != nil {
+	vals := functionArgs(tls, argc, argv)
+	if err := gc.impl.Filter(int(idxNum), idxStrGo, vals); err != nil {
 		// Set zErrMsg on the associated vtab for better diagnostics.
 		if pCursor != 0 {
 			cur := (*sqlite3.Sqlite3_vtab_cursor)(unsafe.Pointer(pCursor))
@@ -766,22 +739,18 @@ func vtabUpdateTrampoline(tls *libc.TLS, pVtab uintptr, argc int32, argv uintptr
 	}
 
 	// INSERT or UPDATE: argc == N+2. argv[0]=oldRowid (NULL for insert),
-	// argv[1]=newRowid (or desired rowid for insert, may be NULL),
-	// argv[2..N+1]=column values.
+	// argv[1..N]=column values, argv[N+1]=newRowid (or desired rowid for insert, may be NULL).
 	if argc < 3 {
 		return sqlite3.SQLITE_MISUSE
 	}
 	nCols := argc - 2
-	// Extract column values starting from argv[2]
-	colsPtr := argv + uintptr(2)*sqliteValPtrSize
-	volatile := gt.mod != nil && gt.mod.volatile
-	sp := functionArgs(tls, nCols, colsPtr, volatile)
-	defer releaseUDFArgs(sp)
-	cols := *sp
+	// Extract column values
+	colsPtr := argv + uintptr(1)*sqliteValPtrSize
+	cols := functionArgs(tls, nCols, colsPtr)
 
 	// Determine old/new rowid
 	oldPtr := *(*uintptr)(unsafe.Pointer(argv + uintptr(0)*sqliteValPtrSize))
-	newPtr := *(*uintptr)(unsafe.Pointer(argv + uintptr(1)*sqliteValPtrSize))
+	newPtr := *(*uintptr)(unsafe.Pointer(argv + uintptr(argc-1)*sqliteValPtrSize))
 
 	oldIsNull := sqlite3.Xsqlite3_value_type(tls, oldPtr) == sqlite3.SQLITE_NULL
 	newIsNull := sqlite3.Xsqlite3_value_type(tls, newPtr) == sqlite3.SQLITE_NULL

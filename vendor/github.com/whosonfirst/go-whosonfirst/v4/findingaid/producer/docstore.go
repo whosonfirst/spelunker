@@ -1,0 +1,168 @@
+package producer
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/url"
+	"strings"
+
+	aa_docstore "github.com/aaronland/gocloud/docstore"
+	"github.com/whosonfirst/go-whosonfirst/v4/findingaid"
+	"github.com/whosonfirst/go-whosonfirst/v4/findingaid/producer/docstore"
+	"github.com/whosonfirst/go-whosonfirst/v4/iterate"
+	"github.com/whosonfirst/go-whosonfirst/v4/uri"
+	gc_docstore "gocloud.dev/docstore"
+)
+
+/*
+
+> java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar
+Initializing DynamoDB Local with the following configuration:
+Port:	8000
+InMemory:	false
+DbPath:	null
+SharedDb:	false
+shouldDelayTransientStatuses:	false
+CorsParams:	*
+
+*/
+
+func init() {
+
+	ctx := context.Background()
+
+	RegisterProducer(ctx, "awsdynamodb", NewDocstoreProducer)
+
+	for _, scheme := range gc_docstore.DefaultURLMux().CollectionSchemes() {
+
+		err := RegisterProducer(ctx, scheme, NewDocstoreProducer)
+
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+type DocstoreProducer struct {
+	Producer
+	scheme     string
+	collection *gc_docstore.Collection
+	path_repo  string
+}
+
+func NewDocstoreProducer(ctx context.Context, uri string) (Producer, error) {
+
+	u, err := url.Parse(uri)
+
+	if err != nil {
+		return nil, fmt.Errorf("Failed to parse URI, %w", err)
+	}
+
+	q := u.Query()
+
+	path_repo := q.Get("path-repo")
+	q.Del("path-repo")
+
+	u.RawQuery = q.Encode()
+
+	uri = u.String()
+
+	collection, err := aa_docstore.OpenCollection(ctx, uri)
+
+	if err != nil {
+		return nil, fmt.Errorf("Failed to open collection, %w", err)
+	}
+
+	p := &DocstoreProducer{
+		scheme:     u.Scheme,
+		collection: collection,
+		path_repo:  path_repo,
+	}
+
+	return p, nil
+}
+
+func (p *DocstoreProducer) PopulateWithIterator(ctx context.Context, iterator_uri string, iterator_sources ...string) error {
+
+	iter, err := iterate.NewIterator(ctx, iterator_uri)
+
+	if err != nil {
+		return fmt.Errorf("Failed to create iterator, %w", err)
+	}
+
+	for rec, err := range iter.Iterate(ctx, iterator_sources...) {
+
+		if err != nil {
+			return err
+		}
+
+		logger := slog.Default()
+		logger = logger.With("path", rec.Path)
+
+		id, uri_args, err := uri.ParseURI(rec.Path)
+
+		if err != nil {
+			rec.Body.Close()
+			return fmt.Errorf("Failed to parse %s, %w", rec.Path, err)
+		}
+
+		logger = logger.With("id", id)
+
+		if uri_args.IsAlternate {
+			logger.Debug("Is alternate file, skipping")
+			rec.Body.Close()
+			continue
+		}
+
+		// Sigh...
+
+		if id == 0 && strings.Contains(p.scheme, "dynamodb") {
+			logger.Warn("Skipping ID 0 because it makes DynamoDB sad")
+			rec.Body.Close()
+			continue
+		}
+
+		// Get wof:repo
+
+		body, err := io.ReadAll(rec.Body)
+
+		if err != nil {
+			rec.Body.Close()
+			return fmt.Errorf("Failed to read %s, %w", rec.Path, err)
+		}
+
+		var repo *findingaid.FindingAidRepo
+
+		if p.path_repo != "" {
+			repo, _, err = findingaid.GetRepoWithBytesForPath(ctx, body, p.path_repo)
+		} else {
+			repo, _, err = findingaid.GetRepoWithBytes(ctx, body)
+		}
+
+		if err != nil {
+			rec.Body.Close()
+			return fmt.Errorf("Failed to retrieve repo for %s, %w", rec.Path, err)
+		}
+
+		repo_name := repo.Name
+		logger = logger.With("repo", repo_name)
+
+		err = docstore.AddToCatalog(ctx, p.collection, id, repo_name)
+
+		if err != nil {
+			rec.Body.Close()
+			return fmt.Errorf("Failed to store %s, %w", rec.Path, err)
+		}
+
+		logger.Debug("Stored record")
+		rec.Body.Close()
+	}
+
+	return nil
+}
+
+func (p *DocstoreProducer) Close(ctx context.Context) error {
+	return p.collection.Close()
+}

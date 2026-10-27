@@ -97,3 +97,7 @@ func (r *HTTPResolver) GetRepo(ctx context.Context, id int64) (string, error) {
 
 	return string(body), nil
 }
+
+func (r *HTTPResolver) Close() error {
+	return nil
+}

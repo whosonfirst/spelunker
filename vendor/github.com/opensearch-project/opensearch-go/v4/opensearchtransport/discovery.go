@@ -967,27 +967,16 @@ func (c *Client) createOrUpdateMultiNodePoolWithLock(readyConnections, deadConne
 		return c.promoteConnectionPoolWithLock(readyConnections, deadConnections)
 	}
 
-	// Update existing multiServerPool or create new one
-	// Apply client-level filtering for dedicated cluster managers
+	// allConns is the bookkeeping inventory of every discovered connection,
+	// including dedicated cluster managers. Discovery reuses connections by
+	// scanning allConns (findConnectionByURL) and evicts them via the removed
+	// diff computed against allConns. Query traffic is kept off dedicated
+	// cluster managers at the routing-policy layer (see RoundRobinPolicy).
 	allReadyConns := make([]*Connection, 0, len(readyConnections))
 	allDeadConns := make([]*Connection, 0, len(deadConnections))
 
-	for _, conn := range readyConnections {
-		if !c.includeDedicatedClusterManagers && conn.Roles.isDedicatedClusterManager() {
-			if dl := loadDebugLogger(); dl != nil {
-				dl.Logf("Excluding dedicated cluster manager %q from connection pool\n", conn.Name)
-			}
-			continue
-		}
-		allReadyConns = append(allReadyConns, conn)
-	}
-
-	for _, conn := range deadConnections {
-		if !c.includeDedicatedClusterManagers && conn.Roles.isDedicatedClusterManager() {
-			continue
-		}
-		allDeadConns = append(allDeadConns, conn)
-	}
+	allReadyConns = append(allReadyConns, readyConnections...)
+	allDeadConns = append(allDeadConns, deadConnections...)
 
 	// Shuffle connections for load distribution unless disabled
 	if !c.skipConnectionShuffle && len(allReadyConns) > 1 {
@@ -1115,9 +1104,9 @@ func (c *Client) getNodesInfo(ctx context.Context) ([]nodeInfo, error) {
 		return nil, err
 	}
 
-	c.setReqURL(conn.URL, req)
-	c.setReqAuth(conn.URL, req)
-	c.setReqUserAgent(req)
+	if err = c.prepareInternalRequest(conn.URL, req, nil); err != nil {
+		return nil, err
+	}
 
 	res, err := c.transport.RoundTrip(req)
 	if err != nil {
@@ -1615,9 +1604,9 @@ func (c *Client) getShardPlacement(ctx context.Context) (map[string]*indexShardP
 		return nil, fmt.Errorf("getting connection for shard placement: %w", err)
 	}
 
-	c.setReqURL(conn.URL, req)
-	c.setReqAuth(conn.URL, req)
-	c.setReqUserAgent(req)
+	if err = c.prepareInternalRequest(conn.URL, req, nil); err != nil {
+		return nil, err
+	}
 
 	res, err := c.transport.RoundTrip(req)
 	if err != nil {
@@ -1868,9 +1857,9 @@ func (c *Client) getRoutingMeta(ctx context.Context, indexes []string) (map[stri
 		return nil, fmt.Errorf("getting connection for routing metadata: %w", err)
 	}
 
-	c.setReqURL(conn.URL, req)
-	c.setReqAuth(conn.URL, req)
-	c.setReqUserAgent(req)
+	if err = c.prepareInternalRequest(conn.URL, req, nil); err != nil {
+		return nil, err
+	}
 
 	res, err := c.transport.RoundTrip(req)
 	if err != nil {

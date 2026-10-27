@@ -4,11 +4,11 @@ Go package for iterating through collections  of Who's On First documents.
 
 ## Documentation
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/go-whosonfirst-iterate.svg)](https://pkg.go.dev/github.com/whosonfirst/go-whosonfirst-iterate/v3)
+[![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/go-whosonfirst-iterate.svg)](https://pkg.go.dev/github.com/whosonfirst/go-whosonfirst-iterate/v4)
 
 ## Example
 
-Version 3.x of this package introduce major, backward-incompatible changes from earlier releases. That said, migragting from version 2.x to 3.x should be relatively straightforward as a the _basic_ concepts are still the same but (hopefully) simplified. Where version 2.x relied on defining a custom callback for looping over records version 3.x use Go's [iter.Seq2](https://pkg.go.dev/iter) iterator construct to yield records as they are encountered.
+Version 3.x of this package introduce major, backward-incompatible changes from earlier releases. That said, migragting from version 2.x to 3.x (and higher) should be relatively straightforward as a the _basic_ concepts are still the same but (hopefully) simplified. Where version 2.x relied on defining a custom callback for looping over records version 3.x use Go's [iter.Seq2](https://pkg.go.dev/iter) iterator construct to yield records as they are encountered.
 
 For example:
 
@@ -18,14 +18,14 @@ import (
 	"flag"
 	"log"
 
-	"github.com/whosonfirst/go-whosonfirst-iterate/v3"
+	"github.com/whosonfirst/go-whosonfirst-iterate/v4"
 )
 
 func main() {
 
      	var iterator_uri string
 
-	flag.StringVar(&iterator_uri, "iterator-uri", "repo://". "A registered whosonfirst/go-whosonfirst-iterate/v3.Iterator URI.")
+	flag.StringVar(&iterator_uri, "iterator-uri", "repo://". "A registered whosonfirst/go-whosonfirst-iterate/v4.Iterator URI.")
 	ctx := context.Background()
 	
 	iter, _:= iterate.NewIterator(ctx, iterator_uri)
@@ -155,14 +155,14 @@ import (
 	"io/fs"	
 	"log"
 	
-	"github.com/whosonfirst/go-whosonfirst-iterate/v3"
+	"github.com/whosonfirst/go-whosonfirst-iterate/v4"
 )
 
 func main() {
 
      	var iterator_uri string
 
-	flag.StringVar(&iterator_uri, "iterator-uri", "fs://". "A registered whosonfirst/go-whosonfirst-iterate/v3.Iterator URI.")
+	flag.StringVar(&iterator_uri, "iterator-uri", "fs://". "A registered whosonfirst/go-whosonfirst-iterate/v4.Iterator URI.")
 	ctx := context.Background()
 
 	// Your fs.FS goes here
@@ -179,7 +179,7 @@ func main() {
 
 Notes:
 
-* The `go-whosonfirst-iterate-fs/v3` implementation does NOT register itself with the `whosonfirst/go-whosonfirst-iterate.RegisterIterator` method and is NOT instantiated using the `whosonfirst/go-whosonfirst-iterate.NewIterator` method since `fs.FS` instances can not be defined as URI constructs.
+* The `go-whosonfirst-iterate-fs/v4` implementation does NOT register itself with the `whosonfirst/go-whosonfirst-iterate.RegisterIterator` method and is NOT instantiated using the `whosonfirst/go-whosonfirst-iterate.NewIterator` method since `fs.FS` instances can not be defined as URI constructs.
 * Under the hood the `NewFSIterator` is wrapping a `FSIterator` instance in a `whosonfirst/go-whosonfirst-iterate.concrurrentIterator` instance to provide for throttling, filtering and other common (configurable) operations.
 
 ### geojsonl://
@@ -256,17 +256,17 @@ go build -mod vendor -o bin/emit cmd/emit/main.go
 
 ### count
 
-Count files in one or more whosonfirst/go-whosonfirst-iterate/v3 iterator sources.
+Count files in one or more whosonfirst/go-whosonfirst-iterate/v4 iterator sources.
 
 ```
 $> ./bin/count -h
-Count files in one or more whosonfirst/go-whosonfirst-iterate/v3.Iterator sources.
+Count files in one or more whosonfirst/go-whosonfirst-iterate/v4.Iterator sources.
 Usage:
 	 ./bin/count [options] uri(N) uri(N)
 Valid options are:
 
   -iterator-uri string
-    	A valid whosonfirst/go-whosonfirst-iterate/v3.Iterator URI. Supported iterator URI schemes are: cwd://,directory://,featurecollection://,file://,filelist://,geojsonl://,null://,repo:// (default "repo://")
+    	A valid whosonfirst/go-whosonfirst-iterate/v4.Iterator URI. Supported iterator URI schemes are: cwd://,directory://,featurecollection://,file://,filelist://,geojsonl://,null://,repo:// (default "repo://")
 ```
 
 For example:
@@ -278,11 +278,11 @@ $> ./bin/count fixtures
 
 ### emit
 
-Emit records in one or more whosonfirst/go-whosonfirst-iterate/v3.Iterator sources as structured data.
+Emit records in one or more whosonfirst/go-whosonfirst-iterate/v4.Iterator sources as structured data.
 
 ```
 $> ./bin/emit -h
-Emit records in one or more whosonfirst/go-whosonfirst-iterate/v3.Iterator sources as structured data.
+Emit records in one or more whosonfirst/go-whosonfirst-iterate/v4.Iterator sources as structured data.
 Usage:
 	 ./bin/emit [options] uri(N) uri(N)
 Valid options are:
@@ -290,7 +290,7 @@ Valid options are:
   -geojson
     	Emit features as a well-formed GeoJSON FeatureCollection record.
   -iterator-uri string
-    	A valid whosonfirst/go-whosonfirst-iterate/v3.Iterator URI. Supported iterator URI schemes are: cwd://,directory://,featurecollection://,file://,filelist://,geojsonl://,null://,repo:// (default "repo://")
+    	A valid whosonfirst/go-whosonfirst-iterate/v4.Iterator URI. Supported iterator URI schemes are: cwd://,directory://,featurecollection://,file://,filelist://,geojsonl://,null://,repo:// (default "repo://")
   -json
     	Emit features as a well-formed JSON array.
   -null
@@ -331,7 +331,7 @@ package custom
 import (
 	"context"
 
-	"github.com/whosonfirst/go-whosonfirst-iterate/v3"
+	"github.com/whosonfirst/go-whosonfirst-iterate/v4"
 )
 
 func init() {

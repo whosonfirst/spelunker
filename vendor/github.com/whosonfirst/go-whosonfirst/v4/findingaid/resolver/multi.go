@@ -70,3 +70,17 @@ func (r *MultiResolver) GetRepo(ctx context.Context, id int64) (string, error) {
 
 	return "", fmt.Errorf("Not found")
 }
+
+func (r *MultiResolver) Close() error {
+
+	for _, other_r := range r.resolvers {
+
+		err := other_r.Close()
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

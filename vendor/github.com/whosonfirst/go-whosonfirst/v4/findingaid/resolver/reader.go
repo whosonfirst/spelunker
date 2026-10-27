@@ -125,3 +125,7 @@ func (r *ReaderResolver) GetRepo(ctx context.Context, id int64) (string, error) 
 
 	return repo_rsp.String(), nil
 }
+
+func (r *ReaderResolver) Close() error {
+	return nil
+}
